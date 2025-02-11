@@ -6,7 +6,6 @@ const tags = [
   { name: 'usuarios', description: 'Manutenção dos cadastros de usuários' },
 ];
 
-
 export function gerarDocumentFactory(app: INestApplication<any>) {
   const config = new DocumentBuilder()
     .setTitle('PregsFin')
