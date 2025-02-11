@@ -84,6 +84,16 @@
           "length": null,
           "mappedType": "datetime"
         },
+        "categoria": {
+          "name": "categoria",
+          "type": "varchar(255)",
+          "unsigned": false,
+          "autoincrement": false,
+          "primary": false,
+          "nullable": true,
+          "length": 255,
+          "mappedType": "string"
+        },
         "cartao_id": {
           "name": "cartao_id",
           "type": "int",

@@ -12,6 +12,15 @@ export class UsuarioService {
     private readonly repository: EntityRepository<Usuario>,
   ) {}
 
+  async consultar(id: number): Promise<Usuario> {
+    const usuarioNaoEncontrado = await this.repository.findOne(id);
+
+    return naoNuloOuException(
+      usuarioNaoEncontrado,
+      new UsuarioNaoEncontradoException(),
+    );
+  }
+
   async identificarPorNumero(numero?: string): Promise<Usuario> {
     const usuarioNaoEncontrado = await this.repository.findOne({
       numeroChat: numero,

@@ -1,0 +1,9 @@
+export enum CategoriaDespesa {
+  ALIMENTACAO = 'ALIMENTACAO',
+  TRANSPORTE = 'TRANSPORTE',
+  MORADIA = 'MORADIA',
+  SAUDE = 'SAUDE',
+  EDUCACAO = 'EDUCACAO',
+  LAZER = 'LAZER',
+  OUTROS = 'OUTROS',
+}
