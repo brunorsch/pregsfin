@@ -13,21 +13,21 @@ export class UsuarioService {
   ) {}
 
   async consultar(id: number): Promise<Usuario> {
-    const usuarioNaoEncontrado = await this.repository.findOne(id);
+    const usuarioEncontrado = await this.repository.findOne(id);
 
     return naoNuloOuException(
-      usuarioNaoEncontrado,
+      usuarioEncontrado,
       new UsuarioNaoEncontradoException(),
     );
   }
 
   async identificarPorNumero(numero?: string): Promise<Usuario> {
-    const usuarioNaoEncontrado = await this.repository.findOne({
+    const usuarioEncontrado = await this.repository.findOne({
       numeroChat: numero,
     });
 
     return naoNuloOuException(
-      usuarioNaoEncontrado,
+      usuarioEncontrado,
       new UsuarioNaoEncontradoException(),
     );
   }

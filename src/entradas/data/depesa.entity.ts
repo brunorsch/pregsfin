@@ -1,4 +1,10 @@
-import { Entity, PrimaryKey, Property, ManyToOne } from '@mikro-orm/core';
+import {
+  Entity,
+  PrimaryKey,
+  Property,
+  ManyToOne,
+  DecimalType,
+} from '@mikro-orm/core';
 import { SoftDeletable } from 'mikro-orm-soft-delete';
 import { Cartao } from './cartao.entity';
 import { CategoriaDespesa } from './categoria-despesa';
@@ -20,8 +26,8 @@ export class Despesa {
   @Property({ length: 250 })
   descricao!: string;
 
-  @Property({ columnType: 'decimal(10,2)' })
-  valor!: number;
+  @Property({ columnType: 'decimal(10,2)', type: DecimalType })
+  valor!: string;
 
   @Property({ fieldName: 'data_vencimento', nullable: true })
   dataVencimento?: Date;

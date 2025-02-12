@@ -10,5 +10,6 @@ import { UsuarioModule } from 'src/usuario/usuario.module';
   imports: [MikroOrmModule.forFeature([Despesa, Cartao]), UsuarioModule],
   providers: [EntradaService],
   controllers: [EntradaController],
+  exports: [EntradaService],
 })
 export class EntradaModule {}

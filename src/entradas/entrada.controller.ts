@@ -17,7 +17,7 @@ export class EntradaController {
     type: CriarDespesaRequestDto,
   })
   async criarDespesa(@Body() body: CriarDespesaRequestDto): Promise<any> {
-    const idDespesa = await this.entradaService.criarDespesa(
+    const idDespesa = await this.entradaService.criarDespesaParaIdUsuario(
       body.usuarioId,
       fromCriarDespesaRequestDto(body),
     );
