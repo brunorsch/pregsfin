@@ -1,13 +1,7 @@
-import { Injectable, Logger, OnModuleInit } from '@nestjs/common';
-import { Bot, Context, session, SessionFlavor } from 'grammy';
+import { Injectable, OnModuleInit } from '@nestjs/common';
+import { Bot, session } from 'grammy';
 import { ComandoService } from '../comando.service';
-
-interface SessionData {
-  descricaoUltimaDespesa?: string;
-  isAguarandoValorDespesa?: boolean;
-}
-
-export type PregsContext = Context & SessionFlavor<SessionData>;
+import { PregsContext } from '../types/pregs-context';
 
 @Injectable()
 export class TelegramBotService implements OnModuleInit {
@@ -33,8 +27,8 @@ export class TelegramBotService implements OnModuleInit {
       );
     });
 
-    this.bot.on(['message:text', 'edited_message:text'], async (ctx) => {
-      await this.comandoService.processarComando(ctx);
+    this.bot.on(['message:text', 'edited_message:text'], (ctx) => {
+      this.comandoService.processarComando(ctx);
     });
 
     void this.bot.start();
