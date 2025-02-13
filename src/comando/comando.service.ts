@@ -22,6 +22,43 @@ export class ComandoService {
 
     Logger.debug(`Comando recebido: ${mensagem} - Usuário ID ${numeroChat}`);
 
+    if (
+      mensagem.match(
+        /(?:[Ll]istar?.*(?:[Dd]espesas?.*)|(?:[Mm]inhas?)?\s*(?:[Dd]espesas?).*m[êe]s*.)/,
+      )
+    ) {
+      Logger.debug(`Comando identificado: Listar despesas`);
+
+      const despesas =
+        await this.entradaService.listarDespesasPorChat(numeroChat);
+
+      if (despesas.length === 0) {
+        await ctx.reply('Nenhuma despesa encontrada.');
+        return;
+      }
+
+      const total: ReturnType<typeof currency> = despesas.reduce(
+        (acc, despesa) => acc.add(despesa.valor),
+        currency(0),
+      );
+
+      const despesasFormatadas = despesas
+        // eslint-disable-next-line prettier/prettier
+        .map(
+          (despesa) =>
+            `${despesa.descricao}: *${currency(despesa.valor).format(BRLFormat)}* (_#${despesa.id}_)`,
+        )
+        .join('\n');
+
+      void ctx.reply(
+        `*Despesas do mês:*\n\n${despesasFormatadas}\n\n` +
+          `*Total: ${total.format(BRLFormat)}*`,
+        { parse_mode: 'Markdown' },
+      );
+
+      return;
+    }
+
     const comando = mensagem.split(' ');
 
     if (ctx.session.isAguarandoValorDespesa) {

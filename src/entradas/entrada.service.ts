@@ -47,4 +47,10 @@ export class EntradaService {
     novaDespesa.usuario = usuario;
     return await this.despesaRepository.insert(novaDespesa);
   }
+
+  async listarDespesasPorChat(numeroChat: string): Promise<Despesa[]> {
+    Logger.log(`Listando despesas para usuário número ${numeroChat}`);
+
+    return await this.despesaRepository.find({ usuario: { numeroChat } });
+  }
 }
