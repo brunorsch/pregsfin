@@ -15,11 +15,9 @@ export class CriarDespesaComando implements Comando {
 
   match(mensagem: string, ctx: PregsContext): boolean {
     const comando = mensagem.split(' ');
+    const ultimoArgumento = comando[comando.length - 1];
 
-    return !!(
-      comando.length === 2 ||
-      (ctx.session.isAguarandoValorDespesa && isNumberString(comando[0]))
-    );
+    return !!(comando.length >= 2 && isNumberString(ultimoArgumento));
   }
 
   async executar(
@@ -27,33 +25,9 @@ export class CriarDespesaComando implements Comando {
     numeroChat: string,
     ctx: PregsContext,
   ): Promise<void> {
-    const [descricao, valor] = mensagem.split(' ');
-
-    if (ctx.session.isAguarandoValorDespesa && isNumberString(descricao)) {
-      await this.criarDespesaEResponderChat(
-        numeroChat,
-        ctx.session.descricaoUltimaDespesa!,
-        descricao,
-        ctx,
-      );
-    } else {
-      await ctx.reply(
-        'Valor informado não é um número. Por favor, informe o valor da despesa.',
-      );
-    }
-
-    if (!isNumberString(valor)) {
-      Logger.debug(`Valor informado não é um número: ${valor}`);
-
-      ctx.session.descricaoUltimaDespesa = descricao;
-      ctx.session.isAguarandoValorDespesa = true;
-
-      await ctx.reply(
-        'Certo, qual é o valor dessa despesa? Edite a mensagem ou responda com o valor da despesa.',
-      );
-
-      return;
-    }
+    const comandoSplitted = mensagem.split(' ');
+    const valor = comandoSplitted.pop()!;
+    const descricao = comandoSplitted.join(' ');
 
     await this.criarDespesaEResponderChat(numeroChat, descricao, valor, ctx);
   }
